@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --reporter nyan"
+    "test": "mocha 'test/**/*.js' --reporter nyan"
   },
   "keywords": [],
   "author": "Ivan Ivić",

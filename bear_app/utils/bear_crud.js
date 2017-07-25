@@ -47,7 +47,7 @@ module.exports.deleteBear = function(req, res) {
     new Bear(req.params)
     .destroy({require: true})
     .then(function() {
-        res.json({message: 'Successfully deleted bear.'});
+        res.json({response: 'Successfully deleted bear.'});
     })
     .catch(function(err) {
         res.json(err);
