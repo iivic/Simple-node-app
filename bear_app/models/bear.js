@@ -3,11 +3,11 @@ require('dotenv').config();
 var dbConfig = {
         client: process.env.DB_CLIENT,
         connection: {
-            host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASS,
+            charset: process.env.DB_CHARSET,
             database: process.env.DB_NAME,
-            charset: process.env.DB_CHARSET
+            host: process.env.DB_HOST,
+            password: process.env.DB_PASS,
+            user: process.env.DB_USER
         }
     },
     knex = require('knex')(dbConfig),
