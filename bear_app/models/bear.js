@@ -14,5 +14,6 @@ var dbConfig = {
     bookshelf = require('bookshelf')(knex);
 
 module.exports = bookshelf.Model.extend({
-    tableName: 'Bear'
+    tableName: 'Bear',
+    hasTimestamps: true
 });
