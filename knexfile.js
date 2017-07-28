@@ -1,16 +1,33 @@
-require('dotenv').config();
-
 module.exports = {
 
   development: {
-    client: process.env.DB_CLIENT,
+    client: 'mysql',
     connection: {
-      charset: process.env.DB_CHARSET,
-      database: process.env.DB_NAME,
-      host: process.env.DB_HOST,
-      password: process.env.DB_PASS,
-      user: process.env.DB_USER
-    }
+      charset: 'utf8',
+      database: 'bears_database',
+      host: 'localhost',
+      password: '123456',
+      user: 'nodeuser'
+    },
+    migrations: {
+      directory: __dirname + '/migrations'
+    },
+    port: 8000
+  },
+
+  test: {
+    client: 'mysql',
+    connection: {
+      charset: 'utf8',
+      database: 'test_bears_database',
+      host: 'localhost',
+      password: '123456',
+      user: 'nodeuser'
+    },
+    migrations: {
+      directory: __dirname + '/migrations'
+    },
+    port: 8008
   },
 
   staging: {

@@ -1,23 +1,30 @@
-require('dotenv').config();
-
-var Bear = require('../../bear_app/models/bear.js'),
+var Bear = require('../../bear_app/models/bear'),
     expect = require('chai').expect,
     request = require('request'),
-    port = process.env.PORT;
+    dbConfig = require('../../knexfile')[process.env.NODE_ENV],
+    port = dbConfig.port,
+    knex = require('../../knex');
 
 describe('Bear API', function() {
     var base_url = 'http://localhost:' + port + '/api/bears',
         bearName = 'Test Bear',
-        bear,
         URLWithBearId = function(bearId) {return base_url + '/' + bearId};
 
-    after(function() {
-        Bear.where('name', bearName).destroy();
+    after(function(done) {
+        knex.migrate.rollback()
+        .then(function() {
+            done();
+        });
     });
 
-    before(function() {
-        bear = new Bear({name: bearName});
-        bear.save();
+    beforeEach(function(done) {
+        knex.migrate.rollback()
+        .then(function() {
+            knex.migrate.latest()
+            .then(function() {
+                done();
+            });
+        });
     });
 
     it('creates a new bear', function(done) {
@@ -39,57 +46,63 @@ describe('Bear API', function() {
     });
 
     it('gets all existing bears', function(done) {
-        Bear.count()
-        .then(function(bearsCount) {
-            request.get(base_url, function(_, res) {
-                expect(res.statusCode).to.equal(200);
-                expect(bearsCount).to.equal(JSON.parse(res.body).response.length);
-                done();
-            });
+        new Bear({name: bearName}).save()
+        .then(function() {
+            Bear.count()
+            .then(function(bearsCount) {
+                request.get(base_url, function(_, res) {
+                    expect(res.statusCode).to.equal(200);
+                    expect(bearsCount).to.equal(1);
+                    expect(bearsCount).to.equal(JSON.parse(res.body).response.length);
+                    done();
+                });
+            })
         })
     });
 
     it('gets one specific bear', function(done) {
         var response;
 
-        request.get(URLWithBearId(bear.get('id')), function(_, res) {
-            response = JSON.parse(res.body).response;
-            expect(res.statusCode).to.equal(200);
-            expect(response.id).to.equal(bear.get('id'));
-            expect(response.name).to.equal(bear.get('name'));
-            done();
+        new Bear({name: bearName}).save()
+        .then(function(bear) {
+            request.get(URLWithBearId(bear.get('id')), function(_, res) {
+                response = JSON.parse(res.body).response;
+                expect(res.statusCode).to.equal(200);
+                expect(response.id).to.equal(bear.get('id'));
+                expect(response.name).to.equal(bear.get('name'));
+                done();
+            });
         });
     });
 
     it('updates one specific bear', function(done) {
-        var testCaseBearName = 'Test Bear to update';
-
-        Bear.count()
-        .then(function(bearsCount) {
-            request.patch(
-                URLWithBearId(bear.get('id')),
-                {json: {id: bear.get('id'), name: testCaseBearName}},
-                function(_, res) {
-                    expect(res.statusCode).to.equal(200);
-                    Bear.count()
-                    .then(function(bearsCountAfterUpdate) {
-                        expect(bearsCount).to.equal(bearsCountAfterUpdate);
-                        expect(res.body.response.id).to.equal(bear.get('id'));
-                        expect(res.body.response.name).to.equal(testCaseBearName);
-                        Bear.where('name', testCaseBearName).destroy();
-                        done();
-                    });
-                }
-            );
-        })
+        new Bear({name: bearName}).save()
+        .then(function(bear) {
+            Bear.count()
+            .then(function(bearsCount) {
+                request.patch(
+                    URLWithBearId(bear.get('id')),
+                    {json: {id: bear.get('id'), name: bearName}},
+                    function(_, res) {
+                        expect(res.statusCode).to.equal(200);
+                        Bear.count()
+                        .then(function(bearsCountAfterUpdate) {
+                            expect(bearsCount).to.equal(bearsCountAfterUpdate);
+                            expect(res.body.response.id).to.equal(bear.get('id'));
+                            expect(res.body.response.name).to.equal(bearName);
+                            Bear.where('name', bearName).destroy();
+                            done();
+                        });
+                    }
+                );
+            })
+        });
     });
 
     it('deletes one specific bear', function(done) {
-        var testCaseBearName = 'Test Bear to delete';
-
         Bear.count()
         .then(function(bearsCount) {
-            new Bear({name: testCaseBearName})
+            new Bear({name: bearName})
             .save()
             .then(function(bear) {
                 Bear.count()

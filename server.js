@@ -1,8 +1,7 @@
-require('dotenv').config();
-
 var app,
     bodyParser = require('body-parser'),
-    port = process.env.PORT,
+    dbConfig = require('./knexfile.js')[process.env.NODE_ENV]
+    port = dbConfig.port,
     Router = require('./bear_app/routes/bear_urls');
 
 app = require('express')()

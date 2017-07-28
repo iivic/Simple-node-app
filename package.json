@@ -4,7 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha 'test/**/*.js' --reporter nyan"
+    "migrate": "./node_modules/.bin/knex migrate:latest --env development",
+    "start_dev": "NODE_ENV=development node ./server.js",
+    "start_test": "NODE_ENV=test node ./server.js",
+    "test": "NODE_ENV=test mocha 'test/**/*.js'"
   },
   "keywords": [],
   "author": "Ivan Ivić",
@@ -12,7 +15,6 @@
   "dependencies": {
     "body-parser": "1.17.2",
     "bookshelf": "0.10.3",
-    "dotenv": "4.0.0",
     "express": "4.15.3",
     "knex": "0.13.0",
     "mysql": "2.13.0"
