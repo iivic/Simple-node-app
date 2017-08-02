@@ -1,4 +1,4 @@
-var app,
+let app,
     bodyParser = require('body-parser'),
     dbConfig = require('./knexfile.js')[process.env.NODE_ENV]
     port = dbConfig.port,
@@ -8,7 +8,7 @@ app = require('express')()
 .use(bodyParser.urlencoded({extended: true}))
 .use(bodyParser.json())
 .use('/api', Router)
-.listen(port, function(err) {
+.listen(port, err => {
     if (err) console.error('Error: Starting server failed,', err.message);
     console.log('Listening on port ' + port);
 });

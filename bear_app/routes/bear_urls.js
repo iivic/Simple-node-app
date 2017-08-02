@@ -1,4 +1,4 @@
-var Router = require('express').Router,
+let Router = require('express').Router,
     BearCRUD = require('../utils/bear_crud');
 
 /*

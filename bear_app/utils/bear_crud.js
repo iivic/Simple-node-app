@@ -1,55 +1,35 @@
-var Bear = require('../models/bear');
+let Bear = require('../models/bear');
 
-module.exports.createBear = function(req, res) {
+module.exports.createBear = (req, res) => {
     new Bear(req.body)
     .save()
-    .then(function(bear) {
-        res.json({response: bear});
-    })
-    .catch(function(err) {
-        res.send(err);
-    });
+    .then(bear => res.json({response: bear}))
+    .catch(err => res.send(err));
 };
 
-module.exports.getAllBears = function(_, res) {
+module.exports.getAllBears = (_, res) => {
     Bear.fetchAll()
-    .then(function(bears) {
-        res.json({response: bears});
-    })
-    .catch(function(err) {
-        res.send(err);
-    });
+    .then(bears => res.json({response: bears}))
+    .catch(err => res.send(err));
 };
 
-module.exports.getOneBear = function(req, res) {
+module.exports.getOneBear = (req, res) => {
     Bear.where(req.params)
     .fetch()
-    .then(function(bear) {
-        res.json({response: bear});
-    })
-    .catch(function(err) {
-        res.send(err);
-    });
+    .then(bear => res.json({response: bear}))
+    .catch(err => res.send(err));
 };
 
-module.exports.updateBear = function(req, res) {
+module.exports.updateBear = (req, res) => {
     new Bear(req.params)
     .save(req.body)
-    .then(function(bear) {
-        res.json({response: bear});
-    })
-    .catch(function(err) {
-        res.send(err);
-    });
+    .then(bear => res.json({response: bear}))
+    .catch(err => res.send(err));
 };
 
-module.exports.deleteBear = function(req, res) {
+module.exports.deleteBear = (req, res) => {
     new Bear(req.params)
     .destroy({require: true})
-    .then(function() {
-        res.json({response: 'Successfully deleted bear.'});
-    })
-    .catch(function(err) {
-        res.json(err);
-    });
+    .then(() => res.json({response: 'Successfully deleted bear.'}))
+    .catch(err => res.json(err));
 };
