@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
 
   development: {
@@ -10,7 +12,7 @@ module.exports = {
       user: ''
     },
     migrations: {
-      directory: __dirname + '/migrations'
+      directory: path.resolve(__dirname, 'migrations')
     },
     port: 8000
   },
@@ -25,7 +27,7 @@ module.exports = {
       user: ''
     },
     migrations: {
-      directory: __dirname + '/migrations'
+      directory: path.resolve(__dirname, 'migrations')
     },
     port: 8008
   },
