@@ -1,6 +1,6 @@
 let app,
     bodyParser = require('body-parser'),
-    dbConfig = require('./knexfile.js')[process.env.NODE_ENV]
+    dbConfig = require('./knexfile.js')[process.env.NODE_ENV],
     port = dbConfig.port,
     Router = require('./bear_app/routes/bear_urls');
 
