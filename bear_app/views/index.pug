@@ -1,0 +1,11 @@
+extends main.pug
+
+block header
+    if user
+        h1 Hello #{user.username}!
+    else
+        a(href='/login')  Sign in
+        h1 Welcome!
+
+block content
+    p Nothing to see here.

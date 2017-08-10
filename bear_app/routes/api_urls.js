@@ -2,11 +2,11 @@ let Router = require('express').Router,
     BearCRUD = require('../utils/bear_crud');
 
 /*
- *  GET http://localhost:8080/api/bears
+ *  GET http://localhost:8000/api/bears
  *  POST http://localhost:8000/api/bears
- *  GET http://localhost:8080/api/bears/:bear_id
- *  PATCH http://localhost:8080/api/bears/:bear_id
- *  DELETE http://localhost:8080/api/bears/:bear_id
+ *  GET http://localhost:8000/api/bears/:bear_id
+ *  PATCH http://localhost:8000/api/bears/:bear_id
+ *  DELETE http://localhost:8000/api/bears/:bear_id
  */
 
 module.exports = Router()
