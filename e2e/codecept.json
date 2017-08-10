@@ -1,0 +1,14 @@
+{
+  "tests": "./test/*_test.js",
+  "timeout": 10000,
+  "output": "./output",
+  "helpers": {
+    "Nightmare": {
+      "url": "http://localhost:8008"
+    }
+  },
+  "include": {},
+  "bootstrap": false,
+  "mocha": {},
+  "name": "e2e"
+}

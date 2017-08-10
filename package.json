@@ -7,7 +7,8 @@
     "migrate": "./node_modules/.bin/knex migrate:latest --env development",
     "start_dev": "NODE_ENV=development node ./server.js",
     "start_test": "NODE_ENV=test node ./server.js",
-    "test": "NODE_ENV=test mocha 'test/**/*.js'"
+    "test": "NODE_ENV=test mocha 'test/**/*.js'",
+    "e2e": "cd e2e; NODE_ENV=test ../node_modules/.bin/codeceptjs run --steps"
   },
   "keywords": [],
   "author": "Ivan Ivić",
@@ -20,7 +21,7 @@
     "express": "4.15.3",
     "express-session": "1.15.5",
     "knex": "0.13.0",
-    "morgan": "^1.8.2",
+    "morgan": "1.8.2",
     "mysql": "2.13.0",
     "passport": "0.3.2",
     "passport-local": "1.0.0",
@@ -28,7 +29,10 @@
   },
   "devDependencies": {
     "chai": "4.0.2",
+    "codeceptjs": "1.0.0",
     "mocha": "3.4.2",
+    "nightmare": "2.10.0",
+    "nightmare-upload": "0.1.1",
     "request": "2.81.0"
   }
 }

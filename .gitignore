@@ -5,3 +5,4 @@ node_modules/
 knexfile.js
 
 .DS_Store
+e2e/output/
