@@ -8,7 +8,8 @@
     }
   },
   "include": {},
-  "bootstrap": false,
+  "bootstrap": "./setup_and_teardown.js",
+  "teardown": "./setup_and_teardown.js",
   "mocha": {},
   "name": "e2e"
 }

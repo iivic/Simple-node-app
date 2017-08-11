@@ -1,11 +1,8 @@
-var testUser = {
-        username: 'testuser',
-        password: 'testuserpasswd'
-    };
+let testUser = require('../setup_and_teardown').testUser;
 
 Feature('User login');
 
-Scenario('test unsuccessful login process', (I) => {
+Scenario('test successful login process', (I) => {
     I.amOnPage('/');
     I.seeElement('#sign-in');
     I.click('#sign-in');
@@ -13,6 +10,18 @@ Scenario('test unsuccessful login process', (I) => {
     I.seeElement('#login');
     I.fillField('input[name="username"]', testUser.username);
     I.fillField('input[name="password"]', testUser.password);
+    I.click('#login');
+    I.see('Hello ' + testUser.username + '!');
+});
+
+Scenario('test unsuccessful login process', (I) => {
+    I.amOnPage('/');
+    I.seeElement('#sign-in');
+    I.click('#sign-in');
+    I.seeInCurrentUrl('/login');
+    I.seeElement('#login');
+    I.fillField('input[name="username"]', 'incorrect user');
+    I.fillField('input[name="password"]', 'incorrect passwd');
     I.click('#login');
     I.seeInCurrentUrl('/login');
 });
