@@ -6,7 +6,7 @@ let db = require('../bear_app/models/db'),
     knex = require('../knex');;
 
 module.exports = {
-    bootstrap: function(done) {
+    bootstrap: done => {
         console.log('Starting setup...');
         knex.migrate.rollback()
         .then(() => {
@@ -21,7 +21,7 @@ module.exports = {
             });
         });
     },
-    teardown: function(done) {
+    teardown: done => {
         console.log('Starting teardown...');
         knex.migrate.rollback()
         .then(function() {

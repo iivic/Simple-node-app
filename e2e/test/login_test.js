@@ -3,7 +3,7 @@ let testUser = require('../setup_and_teardown').testUser;
 Feature('User login');
 
 Scenario('test successful login process', (I) => {
-    I.amOnPage('/');
+    I.amOnPage('http://localhost:8008/');
     I.seeElement('#sign-in');
     I.click('#sign-in');
     I.seeInCurrentUrl('/login');
@@ -15,7 +15,7 @@ Scenario('test successful login process', (I) => {
 });
 
 Scenario('test unsuccessful login process', (I) => {
-    I.amOnPage('/');
+    I.amOnPage('http://localhost:8008/');
     I.seeElement('#sign-in');
     I.click('#sign-in');
     I.seeInCurrentUrl('/login');
