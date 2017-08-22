@@ -40,3 +40,7 @@ module.exports.delete= params => {
     .then(() => 'Successfully deleted bear.')
     .catch(err => err);
 };
+
+module.exports.isOriginalBear = bear => {
+    return bear.get('created_at').getTime() == bear.get('updated_at').getTime();
+};
