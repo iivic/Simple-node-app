@@ -53,7 +53,7 @@ describe('Bear API', () => {
                 request.get(base_url, (_, res) => {
                     expect(res.statusCode).to.equal(200);
                     expect(bearsCount).to.equal(1);
-                    expect(bearsCount).to.equal(JSON.parse(res.body).response.length);
+                    expect(bearsCount).to.equal(JSON.parse(res.body).length);
                     done();
                 });
             })
@@ -66,7 +66,7 @@ describe('Bear API', () => {
         new Bear({name: bearName}).save()
         .then(bear => {
             request.get(URLWithBearId(bear.get('id')), (_, res) => {
-                response = JSON.parse(res.body).response;
+                response = JSON.parse(res.body);
                 expect(res.statusCode).to.equal(200);
                 expect(response.id).to.equal(bear.get('id'));
                 expect(response.name).to.equal(bear.get('name'));
@@ -88,8 +88,8 @@ describe('Bear API', () => {
                         Bear.count()
                         .then(bearsCountAfterUpdate => {
                             expect(bearsCount).to.equal(bearsCountAfterUpdate);
-                            expect(res.body.response.id).to.equal(bear.get('id'));
-                            expect(res.body.response.name).to.equal(bearName);
+                            expect(res.body.id).to.equal(bear.get('id'));
+                            expect(res.body.name).to.equal(bearName);
                             Bear.where('name', bearName).destroy();
                             done();
                         });
@@ -112,7 +112,7 @@ describe('Bear API', () => {
                         URLWithBearId(bear.get('id')),
                         (_, res) => {
                             expect(res.statusCode).to.equal(200);
-                            expect(JSON.parse(res.body).response).to.equal('Successfully deleted bear.');
+                            expect(JSON.parse(res.body)).to.equal('Successfully deleted bear.');
                             Bear.count()
                             .then(bearsCountAfterDeleting => {
                                 expect(bearsCount).to.equal(bearsCountAfterDeleting);
