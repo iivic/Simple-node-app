@@ -1,13 +1,13 @@
-let app = require('express')()
-let bodyParser = require('body-parser')
-let dbConfig = require('./knexfile.js')[process.env.NODE_ENV]
-let path = require('path')
-let port = dbConfig.port
-let APIRoutes = require('./bear_app/routes/api_urls')
-let TemplateRoutes = require('./bear_app/routes/urls')
-let db = require('./bear_app/models/db')
-let passport = require('passport')
-let LocalStrategy = require('passport-local').Strategy
+const app = require('express')()
+const bodyParser = require('body-parser')
+const dbConfig = require('./knexfile.js')[process.env.NODE_ENV]
+const path = require('path')
+const port = dbConfig.port
+const APIRoutes = require('./bear_app/routes/api_urls')
+const TemplateRoutes = require('./bear_app/routes/urls')
+const db = require('./bear_app/models/db')
+const passport = require('passport')
+const LocalStrategy = require('passport-local').Strategy
 
 // passport config
 // getting attributes from models is done with .get in this case

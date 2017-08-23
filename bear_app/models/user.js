@@ -1,10 +1,10 @@
-let knex = require('../../knex')
-let bookshelf = require('bookshelf')(knex)
-let securePassword = require('bookshelf-secure-password')
+const knex = require('../../knex')
+const bookshelf = require('bookshelf')(knex)
+const securePassword = require('bookshelf-secure-password')
 
 bookshelf.plugin(securePassword)
 
-let User = bookshelf.Model.extend({
+const User = bookshelf.Model.extend({
   tableName: 'User',
   hasTimestamps: true,
   hasSecurePassword: true

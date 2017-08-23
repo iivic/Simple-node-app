@@ -1,4 +1,7 @@
 {
+    "rules": {
+        "prefer-const": ["error"]
+    },
     "globals": {
         "after": true,
         "beforeEach": true,

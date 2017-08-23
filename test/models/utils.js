@@ -1,10 +1,10 @@
-let db = require('../../bear_app/models/db')
-let expect = require('chai').expect
-let knex = require('../../knex')
+const db = require('../../bear_app/models/db')
+const expect = require('chai').expect
+const knex = require('../../knex')
 
 describe('Bear Functionalities', () => {
-  let bearName = 'Utils Test Bear'
-  let bearName2 = 'Utils Test Bear 2'
+  const bearName = 'Utils Test Bear'
+  const bearName2 = 'Utils Test Bear 2'
 
   after(done => {
     knex.migrate.rollback()

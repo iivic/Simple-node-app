@@ -1,4 +1,4 @@
-let testUser = require('../setup_and_teardown').testUser
+const testUser = require('../setup_and_teardown').testUser
 
 Feature('User login')
 

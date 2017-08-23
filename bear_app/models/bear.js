@@ -1,7 +1,7 @@
-let knex = require('../../knex')
-let bookshelf = require('bookshelf')(knex)
+const knex = require('../../knex')
+const bookshelf = require('bookshelf')(knex)
 
-let Bear = bookshelf.Model.extend({
+const Bear = bookshelf.Model.extend({
   tableName: 'Bear',
   hasTimestamps: true
 })

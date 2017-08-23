@@ -1,9 +1,9 @@
-let db = require('../bear_app/models/db')
-let testUser = {
+const db = require('../bear_app/models/db')
+const testUser = {
   username: 'testuser',
   password: 'testuserpasswd'
 }
-let knex = require('../knex')
+const knex = require('../knex')
 
 module.exports = {
   bootstrap: done => {

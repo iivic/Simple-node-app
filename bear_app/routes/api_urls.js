@@ -1,5 +1,5 @@
-let Router = require('express').Router
-let db = require('../models/db')
+const Router = require('express').Router
+const db = require('../models/db')
 
 /*
  *  GET http://localhost:8000/api/bears
@@ -9,27 +9,27 @@ let db = require('../models/db')
  *  DELETE http://localhost:8000/api/bears/:bear_id
  */
 
-let createBear = (req, res) => {
+const createBear = (req, res) => {
   db.Bear.create(req.body)
     .then(result => res.json(result))
 }
 
-let getAllBears = (_, res) => {
+const getAllBears = (_, res) => {
   db.Bear.getAll()
     .then(result => res.json(result))
 }
 
-let getOneBear = (req, res) => {
+const getOneBear = (req, res) => {
   db.Bear.getOne(req.params)
     .then(result => res.json(result))
 }
 
-let updateBear = (req, res) => {
+const updateBear = (req, res) => {
   db.Bear.update(req.params, req.body)
     .then(result => res.json(result))
 }
 
-let deleteBear = (req, res) => {
+const deleteBear = (req, res) => {
   db.Bear.delete(req.params)
     .then(result => res.json(result))
 }

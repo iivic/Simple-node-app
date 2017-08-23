@@ -1,5 +1,5 @@
-let Router = require('express').Router
-let passport = require('passport')
+const Router = require('express').Router
+const passport = require('passport')
 
 /*
  *  GET http://localhost:8000/login

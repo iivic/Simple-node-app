@@ -1,14 +1,14 @@
-let Bear = require('../../bear_app/models/bear')
-let expect = require('chai').expect
-let request = require('request')
-let dbConfig = require('../../knexfile')[process.env.NODE_ENV]
-let port = dbConfig.port
-let knex = require('../../knex')
+const Bear = require('../../bear_app/models/bear')
+const expect = require('chai').expect
+const request = require('request')
+const dbConfig = require('../../knexfile')[process.env.NODE_ENV]
+const port = dbConfig.port
+const knex = require('../../knex')
 
 describe('Bear API', () => {
-  let baseURL = 'http://localhost:' + port + '/api/bears'
-  let bearName = 'Test Bear'
-  let URLWithBearId = bearId => baseURL + '/' + bearId
+  const baseURL = 'http://localhost:' + port + '/api/bears'
+  const bearName = 'Test Bear'
+  const URLWithBearId = bearId => baseURL + '/' + bearId
 
   after(done => {
     knex.migrate.rollback()
@@ -61,12 +61,10 @@ describe('Bear API', () => {
   })
 
   it('gets one specific bear', done => {
-    let response
-
     new Bear({name: bearName}).save()
       .then(bear => {
         request.get(URLWithBearId(bear.get('id')), (_, res) => {
-          response = JSON.parse(res.body)
+          const response = JSON.parse(res.body)
           expect(res.statusCode).to.equal(200)
           expect(response.id).to.equal(bear.get('id'))
           expect(response.name).to.equal(bear.get('name'))
