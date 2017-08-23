@@ -1,6 +1,11 @@
 {
-    "rules": {
-        "indent": ["error", 4]
+    "globals": {
+        "after": true,
+        "beforeEach": true,
+        "describe": true,
+        "Feature": true,
+        "it": true,
+        "Scenario": true
     },
     "extends": "standard"
 }

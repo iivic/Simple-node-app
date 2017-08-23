@@ -9,7 +9,7 @@
     "start_test": "NODE_ENV=test node ./server.js",
     "test": "NODE_ENV=test mocha 'test/**/*.js'",
     "e2e": "cd e2e; NODE_ENV=test ../node_modules/.bin/codeceptjs run --steps",
-    "eslint": "./node_modules/.bin/eslint **/*.js"
+    "eslint": "./node_modules/.bin/eslint ./"
   },
   "keywords": [],
   "author": "Ivan Ivić",

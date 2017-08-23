@@ -1,5 +1,5 @@
-let Router = require('express').Router,
-    passport = require('passport');
+let Router = require('express').Router
+let passport = require('passport')
 
 /*
  *  GET http://localhost:8000/login
@@ -9,13 +9,13 @@ let Router = require('express').Router,
  */
 
 module.exports = Router()
-.get('/', (req, res) => res.render('index'))
-.get('/login', (req, res) => res.render('login'))
-.post('/login', passport.authenticate('login', {
+  .get('/', (req, res) => res.render('index'))
+  .get('/login', (req, res) => res.render('login'))
+  .post('/login', passport.authenticate('login', {
     successRedirect: '/',
     failureRedirect: '/login'
-}))
-.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-});
+  }))
+  .get('/logout', (req, res) => {
+    req.logout()
+    res.redirect('/')
+  })

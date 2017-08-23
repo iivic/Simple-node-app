@@ -1,17 +1,17 @@
-let knex = require('../../knex'),
-    bookshelf = require('bookshelf')(knex),
-    securePassword = require('bookshelf-secure-password');
+let knex = require('../../knex')
+let bookshelf = require('bookshelf')(knex)
+let securePassword = require('bookshelf-secure-password')
 
-bookshelf.plugin(securePassword);
+bookshelf.plugin(securePassword)
 
-User = bookshelf.Model.extend({
-    tableName: 'User',
-    hasTimestamps: true,
-    hasSecurePassword: true
-});
+let User = bookshelf.Model.extend({
+  tableName: 'User',
+  hasTimestamps: true,
+  hasSecurePassword: true
+})
 
-module.exports = User;
+module.exports = User
 
 module.exports.register = (username, password) => {
-    return new User({username, password}).save();
-};
+  return new User({username, password}).save()
+}
