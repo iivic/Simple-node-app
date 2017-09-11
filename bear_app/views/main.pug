@@ -2,12 +2,14 @@ doctype
 html
   head
     block title
-        title My Site - Awesome Bear App
+      title Exams Platform
     block scripts
   body
     header
-        if user
-            a(href='/logout')#sign-out  Sign out
-        block header
-    block content
-    block footer
+      if user
+        a(href='/logout')#sign-out  Sign out
+      block header
+    main
+      block content
+    footer
+      block footer

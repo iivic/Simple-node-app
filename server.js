@@ -1,11 +1,11 @@
 const app = require('express')()
 const bodyParser = require('body-parser')
-const dbConfig = require('./knexfile.js')[process.env.NODE_ENV]
+const { dbConfig } = require('./bear_app/models/db')
 const path = require('path')
 const port = dbConfig.port
 const APIRoutes = require('./bear_app/routes/api_urls')
 const TemplateRoutes = require('./bear_app/routes/urls')
-const db = require('./bear_app/models/db')
+const User = require('./bear_app/models/user')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
@@ -14,7 +14,7 @@ const LocalStrategy = require('passport-local').Strategy
 // we just send the attributes so the template can get the value
 passport.use('login', new LocalStrategy(
   (username, password, done) => {
-    db.User.where({username})
+    User.where({username})
       .fetch()
       .then(user => {
         if (!user) return done(null, false)
@@ -27,7 +27,7 @@ passport.use('login', new LocalStrategy(
 ))
 passport.serializeUser((user, done) => done(null, user.id))
 passport.deserializeUser((id, done) => {
-  db.User.where({id})
+  User.where({id})
     .fetch()
     .then(user => done(null, user.attributes))
     .catch(err => done(err))
@@ -51,6 +51,12 @@ app.set('view engine', 'pug')
   })
   .use('/', TemplateRoutes)
   .use('/api', APIRoutes)
+  .use(function mainMiddleware (err, _, res) {
+    // Do logging and user-friendly error message display
+    console.log('Main middleware')
+    console.error(err)
+    res.status(500).send('Internal server error')
+  })
   .listen(port, err => {
     if (err) console.error('Error: Starting server failed,', err.message)
     console.log('Listening on port ' + port)

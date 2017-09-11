@@ -1,125 +1,89 @@
 const Bear = require('../../bear_app/models/bear')
 const expect = require('chai').expect
-const request = require('request')
-const dbConfig = require('../../knexfile')[process.env.NODE_ENV]
-const port = dbConfig.port
-const knex = require('../../knex')
+const rp = require('request-promise')
+const { knex, dbConfig } = require('../../bear_app/models/db')
 
 describe('Bear API', () => {
-  const baseURL = 'http://localhost:' + port + '/api/bears'
-  const bearName = 'Test Bear'
+  const baseURL = 'http://localhost:' + dbConfig.port + '/api/bears'
+  const bearName = 'API Test Bear'
   const URLWithBearId = bearId => baseURL + '/' + bearId
+  let options
+  let bear
 
-  after(done => {
-    knex.migrate.rollback()
-      .then(function () {
-        done()
+  after(() => knex.migrate.rollback())
+
+  beforeEach(() => {
+    return knex.migrate.rollback()
+      .then(() => knex.migrate.latest())
+      .then(() => Bear.forge({name: bearName}).save())
+      .then(response => {
+        bear = response
+        return bear
       })
   })
 
-  beforeEach(done => {
-    knex.migrate.rollback()
-      .then(() => {
-        knex.migrate.latest()
-          .then(() => {
-            done()
-          })
+  it('creates a new bear', () => {
+    const bearName2 = 'API Test Bear 2'
+    options = {
+      method: 'POST',
+      uri: baseURL,
+      body: {
+        name: bearName2
+      },
+      json: true
+    }
+
+    rp(options).then(parsedBody => expect(parsedBody.name).to.equal(bearName2))
+  })
+
+  it('gets all existing bears', () => {
+    options = {
+      uri: baseURL,
+      json: true
+    }
+
+    rp(options).then(parsedBody => expect(parsedBody.length).to.equal(1))
+  })
+
+  it('gets one specific bear', () => {
+    options = {
+      uri: URLWithBearId(bear.get('id')),
+      json: true
+    }
+
+    rp(options)
+      .then(parsedBody => {
+        expect(parsedBody.id).to.equal(bear.get('id'))
+        expect(parsedBody.name).to.equal(bear.get('name'))
       })
   })
 
-  it('creates a new bear', done => {
-    Bear.count()
-      .then(numberOfBearsBefore => {
-        request.post(
-          baseURL,
-          {json: {name: bearName}},
-          (_, res, body) => {
-            expect(res.statusCode).to.equal(200)
-            Bear.count()
-              .then(numberOfBearsAfter => {
-                expect(numberOfBearsAfter).to.equal(numberOfBearsBefore + 1)
-                done()
-              })
-          }
-        )
-      })
+  it('updates one specific bear', () => {
+    const bearName2 = 'API Test Bear 2'
+    options = {
+      method: 'PATCH',
+      body: {
+        name: bearName2
+      },
+      uri: URLWithBearId(bear.get('id')),
+      json: true
+    }
+
+    rp(options).then(parsedBody => expect(parsedBody.name).to.equal(bearName2))
   })
 
-  it('gets all existing bears', done => {
-    new Bear({name: bearName}).save()
-      .then(() => {
-        Bear.count()
-          .then(bearsCount => {
-            request.get(baseURL, (_, res) => {
-              expect(res.statusCode).to.equal(200)
-              expect(bearsCount).to.equal(1)
-              expect(bearsCount).to.equal(JSON.parse(res.body).length)
-              done()
-            })
-          })
-      })
-  })
+  it('deletes one specific bear', () => {
+    options = {
+      method: 'DELETE',
+      uri: URLWithBearId(bear.get('id')),
+      json: true
+    }
 
-  it('gets one specific bear', done => {
-    new Bear({name: bearName}).save()
-      .then(bear => {
-        request.get(URLWithBearId(bear.get('id')), (_, res) => {
-          const response = JSON.parse(res.body)
-          expect(res.statusCode).to.equal(200)
-          expect(response.id).to.equal(bear.get('id'))
-          expect(response.name).to.equal(bear.get('name'))
-          done()
-        })
+    rp(options)
+      .then(parsedBody => {
+        expect(parsedBody).to.equal('Deleted bear!')
+        return Bear.count()
       })
-  })
-
-  it('updates one specific bear', done => {
-    new Bear({name: bearName}).save()
-      .then(bear => {
-        Bear.count()
-          .then(bearsCount => {
-            request.patch(
-              URLWithBearId(bear.get('id')),
-              {json: {id: bear.get('id'), name: bearName}},
-              (_, res) => {
-                expect(res.statusCode).to.equal(200)
-                Bear.count()
-                  .then(bearsCountAfterUpdate => {
-                    expect(bearsCount).to.equal(bearsCountAfterUpdate)
-                    expect(res.body.id).to.equal(bear.get('id'))
-                    expect(res.body.name).to.equal(bearName)
-                    Bear.where('name', bearName).destroy()
-                    done()
-                  })
-              }
-            )
-          })
-      })
-  })
-
-  it('deletes one specific bear', done => {
-    Bear.count()
-      .then(bearsCount => {
-        new Bear({name: bearName})
-          .save()
-          .then(bear => {
-            Bear.count()
-              .then(bearsCountAfterCreating => {
-                expect(bearsCount).to.equal(bearsCountAfterCreating - 1)
-                request.delete(
-                  URLWithBearId(bear.get('id')),
-                  (_, res) => {
-                    expect(res.statusCode).to.equal(200)
-                    expect(JSON.parse(res.body)).to.equal('Successfully deleted bear.')
-                    Bear.count()
-                      .then(bearsCountAfterDeleting => {
-                        expect(bearsCount).to.equal(bearsCountAfterDeleting)
-                      })
-                    done()
-                  }
-                )
-              })
-          })
-      })
+      .then(bearsCount => expect(bearsCount).to.equal(0))
   })
 })
