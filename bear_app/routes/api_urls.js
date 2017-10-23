@@ -1,5 +1,5 @@
-const Router = require('express').Router
-const db = require('../models/db')
+const { Router } = require('express')
+const BearApiController = require('../controllers/bear_api')
 
 /*
  *  GET http://localhost:8000/api/bears
@@ -9,34 +9,9 @@ const db = require('../models/db')
  *  DELETE http://localhost:8000/api/bears/:bear_id
  */
 
-const createBear = (req, res) => {
-  db.Bear.create(req.body)
-    .then(result => res.json(result))
-}
-
-const getAllBears = (_, res) => {
-  db.Bear.getAll()
-    .then(result => res.json(result))
-}
-
-const getOneBear = (req, res) => {
-  db.Bear.getOne(req.params)
-    .then(result => res.json(result))
-}
-
-const updateBear = (req, res) => {
-  db.Bear.update(req.params, req.body)
-    .then(result => res.json(result))
-}
-
-const deleteBear = (req, res) => {
-  db.Bear.delete(req.params)
-    .then(result => res.json(result))
-}
-
 module.exports = Router()
-  .get('/bears', getAllBears)
-  .post('/bears', createBear)
-  .get('/bears/:id', getOneBear)
-  .patch('/bears/:id', updateBear)
-  .delete('/bears/:id', deleteBear)
+  .get('/bears', BearApiController.getAllBears)
+  .post('/bears', BearApiController.createBear)
+  .get('/bears/:id', BearApiController.getOneBear)
+  .patch('/bears/:id', BearApiController.updateBear)
+  .delete('/bears/:id', BearApiController.deleteBear)

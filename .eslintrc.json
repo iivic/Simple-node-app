@@ -1,14 +1,14 @@
 {
-    "rules": {
-        "prefer-const": ["error"]
-    },
-    "globals": {
-        "after": true,
-        "beforeEach": true,
-        "describe": true,
-        "Feature": true,
-        "it": true,
-        "Scenario": true
-    },
-    "extends": "standard"
+  "rules": {
+    "prefer-const": ["error"]
+  },
+  "globals": {
+    "after": true,
+    "beforeEach": true,
+    "describe": true,
+    "Feature": true,
+    "it": true,
+    "Scenario": true
+  },
+  "extends": "standard"
 }

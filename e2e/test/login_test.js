@@ -11,6 +11,7 @@ Scenario('test successful login process', (I) => {
   I.fillField('input[name="username"]', testUser.username)
   I.fillField('input[name="password"]', testUser.password)
   I.click('#login')
+  I.wait(1)
   I.see('Hello ' + testUser.username + '!')
 })
 
